@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'service.dart'; 
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key}); 
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final myController = TextEditingController();
-
-  double convertTemperature(double value) {
-    return (value * (9/5)) + 32;
-  }
+  final temperatureService = TemperatureService();
 
   @override
   void dispose() {
@@ -61,7 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 if (value == null || value.isEmpty) {
                   return "Please enter some value";
                 }
-                
                 return null;
               },
               controller: myController,
@@ -72,17 +69,16 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ElevatedButton(
                 onPressed: () {
                   showDialog(
-                    context: context, 
+                    context: context,
                     builder: (context) {
                       double celcius = double.parse(myController.text);
-                      double fahrenheit = convertTemperature(celcius);
-
+                      double fahrenheit = temperatureService.convertTemperature(celcius);
                       return AlertDialog(
                         content: Text("$celcius Celcius in Fahrenheit is $fahrenheit"),
                       );
                     });
-                }, 
-                child: const Text("Enter")
+                },
+                child: const Text("Enter"),
               ),
             )
           ],
